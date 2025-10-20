@@ -194,17 +194,6 @@ show cdp neighbor
 <br>
 <br>
 <br>
-
-&nbsp;
----
-&nbsp;
-
-### ANSWER
-<details>
-<summary>Show Answer</summary>
-
-</details>
-
 <br>
 <br>
 
@@ -406,6 +395,34 @@ Task 1.
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+&nbsp;
+---
+&nbsp;
+
+### ANSWER
+<details>
+<summary>Show Answer</summary>
 
 ~~~
 !@C1,C2
@@ -449,6 +466,10 @@ conf t
   end 
 show int trunk
 ~~~
+
+</details>
+
+
 
 <br>
 <br>
