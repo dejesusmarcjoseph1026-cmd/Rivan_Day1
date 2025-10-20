@@ -370,9 +370,6 @@ conf t
 &nbsp;
 
 ## Master the five superheroes of switching
-
-<br>
-
 ### 1. QPID (802.1Q)
 
 <br>
@@ -492,7 +489,7 @@ show int trunk
 ---
 &nbsp;
 
-## DARNA (802.1D)
+### 2. DARNA (802.1D)
 ### `32768  vs  24576  vs  28672`
 
 Properly configure the switch
@@ -646,7 +643,7 @@ Who is __DARNA__ (__802.1D__)
 ---
 &nbsp;
 
-## ⚡ WONDERWOMAN (802.1W)
+### 3. ⚡ WONDERWOMAN (802.1W)
 ~~~
 !@CoreTAAS & CoreBABA, !@C1,C2,D1,D2,A1,A2,A3,A4
 conf t
@@ -845,7 +842,7 @@ Who is __WONDERWOMAN__ (__802.1W__)
 ---
 &nbsp;
 
-## SUPERMAN (802.1S)
+### 4. SUPERMAN (802.1S)
 Step 1: Configure VTP
 ~~~
 !@CoreTAAS,C1,C2
@@ -954,7 +951,7 @@ compared to PVST & RST where each VLANs is its own STP instance.
 ---
 &nbsp;
 
-### X-MEN (802.1X)
+### 5. X-MEN (802.1X)
 > [!IMPORTANT]
 > Configure WinServer 2022 for a RADIUS Server
 
@@ -1238,8 +1235,8 @@ conf t
 ---
 &nbsp;
 
-### IP ADDRESSING
-## Switch Virtual Interface (SVI)
+## IP ADDRESSING
+### Switch Virtual Interface (SVI)
 
 ~~~
 !@CoreTAAS
@@ -1283,45 +1280,58 @@ conf t
   end
 ~~~
 
-
-IP address vs VLANs
-
+<br>
+<br>
 
 Assign IP Addresses on PCs based on their specified VLAN.
 - Make sure PCs can communicate with C1 & C2 (Gateway)
 
+~~~
 !@P1
 conf t
  int e0/0
   no shut
   ip add 10.1.10.101 255.255.255.224
   end
+~~~
 
+<br>
+
+~~~
 !@P2
 conf t
  int e0/0
   no shut
   ip add 192.168.30.113 255.255.255.248
   end
+~~~
 
+<br>
+
+~~~
 !@P3
 conf t
  int e0/0
   no shut
   ip add 10.1.20.60 255.255.255.240
   end
+~~~
 
+<br>
+
+~~~
 !@P4
 conf t
  int e0/0
   ip add 10.1.10.102 255.255.255.224
   no shut
   end
-
+~~~
 
 <br>
 
-Assign RSTVM to VLAN the Management VLAN
+__Assign RSTVM to VLAN the Management VLAN__
+~~~
 !@A3
 conf t
  int e3/3
@@ -1329,14 +1339,13 @@ conf t
   switchport mode access
   switchport access vlan 1
   end
-  
+~~~
   
 <br>
 <br>
 
 ---
 &nbsp;
-
 
 ### DHCP
 ~~~
@@ -1371,67 +1380,17 @@ conf t
   end
 ~~~
 
-DHCP Options
-- Option 1
-- Option 2
-- Option 3
-
-
-<br>
 <br>
 
----
-&nbsp;
+| DHCP Options | Unit |
+| ---          | ---  |
+| 1            |      |
+| 2            |      |
+| 43           |      |
+| 42           |      |
+| 150          |      |
 
-### Exercise 06: [3-Tier] Configure DHCP Pool for SALES
-Task 1.
-- Use the IP address 192.168.50.0/24
-- Reserve the First 100 IPs
-- Apply the First Valid IP on C1, last Valid on C2
-- Load balance between C1 & C2 
-  - C1 - 1   - 100 IPs
-  - C2 - 200 - 253 IPs
-- Set the Domain name to SALES.COM
-- The default Gateway must be C1 or C2 per pool
-
-Task 2.
-- Configure P5 as a dhcp client
-  
-
-!@C1
-conf t
- int vlan 50
-  no shut
-  ip add 192.168.50.1 255.255.255.0
-  exit
- ip dhcp excluded-address 192.168.50.1 192.168.50.100
- ip dhcp pool SALES.COM
-  network 192.168.50.0 255.255.255.0
-  default-router 192.168.50.1
-  domain-name SALES.COM
-  end
-
-!@C2
-conf t
- int vlan 50
-  no shut
-  ip add 192.168.50.254 255.255.255.0
-  exit
- ip dhcp excluded-address 192.168.50.1 192.168.50.200
- ip dhcp pool SALES.COM
-  network 192.168.50.0 255.255.255.0
-  default-router 192.168.50.254
-  domain-name SALES.COM
-  end
-
-
-!@P5
-conf t
- int e0/0
-  no shut
-  ip add dhcp
-  end
-
+<br>
 
 DHCP States:
 1.
@@ -1441,6 +1400,105 @@ DHCP States:
 
 What type of data traffic is each state? (Unicast, Broadcast, Multicast)
 Base on Wireshark.
+
+<br>
+<br>
+
+---
+&nbsp;
+
+### 🎯 Exercise 06: [3-Tier] Configure DHCP Pool for SALES
+Task 1.
+- Use the IP address 192.168.50.0/24
+- Apply the First Valid IP on C1, last Valid on C2
+- Load balance between C1 & C2 
+  - C1 must distribute .100 - .199 IPs
+  - C2 must distribute .200 - .253 IPs
+- Set the Domain name to SALES.COM
+- The default Gateway must be the DHCP server that provided the IP address.
+
+<br>
+
+Task 2.
+- Configure P5 as a dhcp client
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+&nbsp;
+---
+&nbsp;
+
+### ANSWER
+<details>
+<summary>Show Answer</summary>
+	
+~~~
+!@C1
+conf t
+ int vlan 50
+  no shut
+  ip add 192.168.50.1 255.255.255.0
+  exit
+ ip dhcp excluded-address 192.168.50.1 192.168.50.99
+ ip dhcp pool SALES.COM
+  network 192.168.50.0 255.255.255.0
+  default-router 192.168.50.1
+  domain-name SALES.COM
+  end
+~~~
+
+<br>
+
+~~~
+!@C2
+conf t
+ int vlan 50
+  no shut
+  ip add 192.168.50.254 255.255.255.0
+  exit
+ ip dhcp excluded-address 192.168.50.1 192.168.50.199
+ ip dhcp pool SALES.COM
+  network 192.168.50.0 255.255.255.0
+  default-router 192.168.50.254
+  domain-name SALES.COM
+  end
+~~~
+
+<br>
+
+~~~
+!@P5
+conf t
+ int e0/0
+  no shut
+  ip add dhcp
+  end
+~~~
+
+</details>
 
 <br>
 <br>
