@@ -1042,6 +1042,18 @@ How does Port-Channel load balance
 - extended
 
 <br>
+
+Set a minimum & maximum bundle links.
+~~~
+!@CoreTAAS,CoreBABA
+conf t
+ int po1
+  lacp max-bundle 8
+  port-channel min-links 2
+  end
+~~~
+
+<br>
 <br>
 
 ---
@@ -1055,6 +1067,7 @@ Note:
 Task1:
 - C1 & C2 must use the open standard protocol for link aggregation. 
 - C1 & C2 must both participate in forming link aggregation on all linked ports.
+- If the number of bundled ports goes down to 2 or less, the port-channel must go down.
 
 Task2:
 - D1 & D2 must use the open standard protocol for link aggregation. 
@@ -1084,6 +1097,127 @@ Task3:
 <br>
 <br>
 <br>
+
+
+Task1:
+- C1 & C2 must use the open standard protocol for link aggregation.
+- C1 & C2 must both participate in forming link aggregation on all linked ports.
+
+~~~
+!@C1
+conf t
+ int range e0/1-3
+  channel-group 102 mode active
+ int range e1/1-2
+  channel-group 11 mode active
+ int range e2/1-2
+  channel-group 12 mode active
+  end
+~~~
+
+<br>
+
+~~~
+!@C2
+conf t
+ int range e0/1-3
+  channel-group 102 mode active
+ int range e1/1-2
+  channel-group 21 mode active
+ int range e2/1-2
+  channel-group 22 mode active
+  end
+~~~
+
+- On the link between C1 & C2, if the number of bundled ports goes down to 2 or less, the port-channel must go down.
+
+~~~
+!@C1,C2
+conf t
+ int po102
+  port-channel min-links 3
+  end
+~~~
+
+<br>
+
+Task2:
+- D1 & D2 must use the open standard protocol for link aggregation. 
+- D1 & D2 must not participate but will form link aggregation on all linked ports.
+
+~~~
+!@D1
+conf t
+ int range e1/0,e1/3
+  channel-group 11 mode passive
+ int range e2/0,e2/3
+  channel-group 21 mode passive
+ int range e1/1-2
+  channel-group 111 mode passive
+ int range e2/1-2
+  channel-group 112 mode passive
+ int range e3/1-2
+  channel-group 113 mode passive
+  end
+~~~
+
+<br>
+
+~~~
+!@D2
+conf t
+ int range e1/0,e1/3
+  channel-group 12 mode passive
+ int range e2/0,e2/3
+  channel-group 22 mode passive
+ int range e1/1-2
+  channel-group 221 mode passive
+ int range e2/1-2
+  channel-group 222 mode passive
+ int range e3/1-2
+  channel-group 223 mode passive
+  end
+~~~
+
+<br>
+
+Task3:
+- A1, A2, and A3 must use the open standard protocol for link aggregation. 
+- A1, A2, and A3 must participate in forming link aggregation on all linked ports.
+
+~~~
+!@A1
+conf t
+ int range e1/1-2
+  channel-group 111 mode active
+ int range e2/1-2
+  channel-group 221 mode active
+  end
+~~~
+
+<br>
+
+~~~
+!@A2
+conf t
+ int range e1/1-2
+  channel-group 112 mode active
+ int range e2/1-2
+  channel-group 222 mode active
+  end
+~~~
+
+<br>
+
+~~~
+!@A3
+conf t
+ int range e1/1-2
+  channel-group 113 mode active
+ int range e2/1-2
+  channel-group 223 mode active
+  end
+~~~
 
 <br>
 <br>
