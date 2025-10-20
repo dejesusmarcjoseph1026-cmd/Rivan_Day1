@@ -955,43 +955,40 @@ compared to PVST & RST where each VLANs is its own STP instance.
 &nbsp;
 
 ### X-MEN (802.1X)
-Configure SSH (Optional, but recommended)
+> [!IMPORTANT]
+> Configure WinServer 2022 for a RADIUS Server
 
 ~~~
-!@C1,C2
+!@CoreTAAS
 conf t
  username admin privilege 15 secret pass
- username rivan privilege 15 secret pass
- ip domain-name ccnp.com
- crypto key generate rsa modulus 2048 label ccnpkey
- ip ssh rsa keypair-name ccnpkey
- ip ssh version 2
- line vty 0 4
-  transport input ssh,telnet
-  end
-~~~
-
-<br>
-
-~~~
-!@C1,C2
-conf t
- username admin privilege 15 secret pass
- username rivan privilege 15 secret pass
- ip domain-name ccnp.com
- crypto key generate rsa modulus 2048 label ccnpkey
- ip ssh rsa keypair-name ccnpkey
- ip ssh version 2
+ aaa new-model
+ radius server WINRAD
+  address ipv4 10.#$34T#.1.8 auth-port 1812 acct-port 1813
+  key keykeymo
+  exit
+ aaa group server radius RADGROUP
+  server name WINRAD
+  exit
+ aaa authentication login default group RADGROUP local
+ aaa authorization exec default group RADGROUP local
  line vty 0 14
-  transport input ssh,telnet
+  login authentication default
   end
 ~~~
 
 <br>
+<br>
+
+---
+&nbsp;
+
+### [3-Tier] Configure AAA-Based local database authentication on C1 & C2 
 
 ~~~
 !@C1,C2
 conf t
+ username admin priv 15 secret pass
  aaa new-model
  aaa authentication login default local
  aaa authorization exec default local
@@ -1050,7 +1047,7 @@ How does Port-Channel load balance
 ---
 &nbsp;
 
-### Exercise 05: [3-Tier] Configure Etherchannel links
+### 🎯 Exercise 05: [3-Tier] Configure Etherchannel links
 Note:
 - Configure Etherchannel on the links between switches.
 - Configure the Port-Channel Number base on the diagram.
@@ -1067,7 +1064,26 @@ Task3:
 - A1, A2, and A3 must use the open standard protocol for link aggregation. 
 - A1, A2, and A3 must participate in forming link aggregation on all linked ports.
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <br>
 <br>
