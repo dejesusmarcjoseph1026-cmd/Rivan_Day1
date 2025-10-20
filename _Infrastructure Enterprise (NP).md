@@ -1097,8 +1097,19 @@ Task3:
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
 
+&nbsp;
+---
+&nbsp;
 
+### ANSWER
+<details>
+<summary>Show Answer</summary>
+	
 Task1:
 - C1 & C2 must use the open standard protocol for link aggregation.
 - C1 & C2 must both participate in forming link aggregation on all linked ports.
@@ -1218,6 +1229,8 @@ conf t
   channel-group 223 mode active
   end
 ~~~
+
+</details>
 
 <br>
 <br>
