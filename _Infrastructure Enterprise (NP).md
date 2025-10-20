@@ -225,6 +225,9 @@ Task 2.
 <br>
 
 __SOLUTION__  
+
+<br>
+
 Task 1.
 - Disable CDP on Access Switches
 ~~~
@@ -285,7 +288,7 @@ nmap -v 10.#$34T#.1.2
 nmap -v 10.#$34T#.1.4
 ~~~
 
-Telnet
+Telnet the following
 - 10.#$34T#.1.2
 - 10.#$34T#.1.4
 
@@ -366,11 +369,11 @@ conf t
 ---
 &nbsp;
 
-# Master the five superheroes of switching
+## Master the five superheroes of switching
 
 <br>
 
-## QPID (802.1Q)
+### 1. QPID (802.1Q)
 
 <br>
 
@@ -589,6 +592,9 @@ Task 1.
 <br>
 
 __Solution__
+
+<br>
+
 Task 1.
 - Configure all switches to use the Long Path Cost Method.
 ~~~
@@ -711,7 +717,26 @@ conf t
 &nbsp;
 
 ### 🎯 Exercise 04: [3-Tier] Determine STP Features
-Where should the following STP features should be applied on the network to optimize STP traffic.
+What STP features should be applied on the network to optimize STP traffic and network performance.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -857,9 +882,7 @@ conf t
  end
 ~~~
 
-
-> [!IMPORTANT]
-> Configuring VTP will result in Access ports to return to VLAN 1
+<br>
 
 ~~~
 !@CoreBABA
@@ -896,9 +919,9 @@ conf t
 show spanning-tree mst configuration
 ~~~
 
+<br>
 
 Reconfigure Port Priority
-
 ~~~
 !@CoreTAAS,C1
 config t
@@ -922,9 +945,8 @@ end
 ~~~
 
 Who is SUPERMAN (802.1S)
-Multiple VLANs sharing a spanning tree instance, 
+Multiple VLANs sharing a spanning tree instance,  
 compared to PVST & RST where each VLANs is its own STP instance.
-
 
 <br>
 <br>
@@ -932,9 +954,10 @@ compared to PVST & RST where each VLANs is its own STP instance.
 ---
 &nbsp;
 
-
 ### X-MEN (802.1X)
 Configure SSH (Optional, but recommended)
+
+~~~
 !@C1,C2
 conf t
  username admin privilege 15 secret pass
@@ -946,7 +969,11 @@ conf t
  line vty 0 4
   transport input ssh,telnet
   end
+~~~
 
+<br>
+
+~~~
 !@C1,C2
 conf t
  username admin privilege 15 secret pass
@@ -958,7 +985,11 @@ conf t
  line vty 0 14
   transport input ssh,telnet
   end
-  
+~~~
+
+<br>
+
+~~~
 !@C1,C2
 conf t
  aaa new-model
@@ -969,6 +1000,7 @@ conf t
   transport input all
   login authentication default
   end
+~~~
 
 <br>
 <br>
