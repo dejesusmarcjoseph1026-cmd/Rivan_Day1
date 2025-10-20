@@ -203,8 +203,6 @@ show cdp neighbor
 <details>
 <summary>Show Answer</summary>
 
-No Cheating pls...
-
 </details>
 
 <br>
