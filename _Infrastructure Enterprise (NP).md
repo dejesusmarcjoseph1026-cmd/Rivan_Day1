@@ -1628,7 +1628,6 @@ conf t
 
 ## MAC Learning
 ### IP Reservation
-
 ~~~
 !@CoreTAAS
 conf t
@@ -1642,9 +1641,7 @@ conf t
  end
 ~~~
 
-<br>
-<br>
-
+&nbsp;
 ---
 &nbsp;
 
@@ -1707,7 +1704,7 @@ conf t
 &nbsp;
 
 ### Port Security
-
+~~~
 !@CoreBABA
 conf t
  int fa0/6
@@ -1726,9 +1723,12 @@ conf t
   end
 sh port-security address
 sh int status err-disable
- 
+~~~
 
-Make Ports Alive again
+<br>
+
+__Make Ports Alive again__
+~~~
 !@CoreBABA
 config t
  Int fa0/6
@@ -1740,10 +1740,14 @@ config t
   shut
   no shut
   end
- 
+~~~
+
+&nbsp;
+---
+&nbsp;
 
 ### [3-Tier] Set Port-Security for S1
-
+~~~
 !@D2
 conf t
  e0/0
@@ -1753,17 +1757,25 @@ conf t
   switchport port-security maximum 1
   switchport port-security violation shutdown
   end
+~~~
 
+<br>
+
+~~~
 !@S1
 conf t
  int e0/0
   mac-address 0011.1111.1111
   end
+~~~
 
+<br>
+
+~~~
 !@D2
 show port-security address 
 show int status err-disable
- 
+~~~
  
 <br>
 <br>
