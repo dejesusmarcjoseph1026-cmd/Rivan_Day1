@@ -2124,6 +2124,12 @@ conf t
  end
 ~~~
 
+<br>
+<br>
+
+---
+&nbsp;
+
 ### Remote Access - Jumpserver
 *Can you reach CUCM from the PC?*
 
@@ -2132,13 +2138,27 @@ conf t
 ping 10.#$34T#.100.8
 ~~~
 
+<br>
+<br>
 
+---
+&nbsp;
 
+## 🔧 Configure EDGE
+### 🏨 Establish connectivity to your enterprise.
+*How do you gain access to the internet?*
+
+<br>
 
 Customer Premises
- Provider EDGE
- Customer EDGE
+- Provider EDGE
+- Customer Devices
 
+&nbsp;
+---
+&nbsp;
+
+~~~
 !@EDGE
 conf t
  hostname EDGE-#$34T#
@@ -2166,10 +2186,12 @@ conf t
   ip add #$34T#.0.0.1 255.255.255.255
   desc VIRTUALIP
  end
+~~~
 
+<br>
 
-Switch vs Routers
-
+### `Switch` vs `Routers`
+~~~
 !@CoreBABA
 conf t
  int g0/1
@@ -2177,18 +2199,35 @@ conf t
   ip add 10.#$34T#.#$34T#.4 255.255.255.0
   no shut
   end
+~~~
+
+<br>
+<br>
 
 ---
+&nbsp;
 
-Static Routing
+## LAN Connectivity
+### Static & Dynamic Routing
 
+~~~
+!@EDGE
+conf t
+ ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 254
+ !
+ router ospf 1
+  router-id #$34T#.0.0.1
+  network #$34T#.0.0.1 0.0.0.0 area #$34T#
+  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
+  
+~~~
+
+~~~
 !@EDGE
 conf t
  ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 254
  end
-
-Telnet EDGE
-
+~~~
 
 Metro Ethernet
 !@EDGE
