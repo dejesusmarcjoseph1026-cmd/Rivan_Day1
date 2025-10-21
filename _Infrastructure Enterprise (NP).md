@@ -1751,7 +1751,7 @@ config t
 ### 🎯 Exercise 08: [3-Tier] Set Port-Security for S1
 Task 1.
 - Configure D2 to dynamically learn only 1 MAC Address on its e0/0 interface.
-- If it learns an Invalid MAC, make sure the port go to a errdisabled state.
+- If it learns an Invalid MAC, make sure the port goes to an errdisabled state.
 
 <br>
 <br>
@@ -2028,7 +2028,6 @@ conf t
 &nbsp;
 
 ### Incoming Calls
-
 ~~~
 !@CUCM
 conf t
@@ -2037,7 +2036,6 @@ conf t
  ipv4 0.0.0.0 0.0.0.0
  end
 ~~~
-
 
 <br>
 <br>
@@ -2145,7 +2143,7 @@ ping 10.#$34T#.100.8
 &nbsp;
 
 ## 🔧 Configure EDGE
-### 🏨 Establish connectivity to your enterprise.
+### 🏨 Establish connectivity.
 *How do you gain access to the internet?*
 
 <br>
@@ -2207,29 +2205,9 @@ conf t
 ---
 &nbsp;
 
-## LAN Connectivity
-### Static & Dynamic Routing
-
+## Site Connectivity
+### Private Circuit
 ~~~
-!@EDGE
-conf t
- ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 254
- !
- router ospf 1
-  router-id #$34T#.0.0.1
-  network #$34T#.0.0.1 0.0.0.0 area #$34T#
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
-  
-~~~
-
-~~~
-!@EDGE
-conf t
- ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 254
- end
-~~~
-
-Metro Ethernet
 !@EDGE
 conf t
  ip routing
@@ -2252,209 +2230,63 @@ conf t
  ip route 10.91.0.0 255.255.0.0 200.0.0.91 254
  ip route 10.92.0.0 255.255.0.0 200.0.0.92 254
  no ip route 10.#$34T#.0.0 255.255.0.0 200.0.0.#$34T# 254
- end
-
---- 
-
-Dynamic Routing
-
-IGP
-- Distance Vector
-1.
-2.
-- Link-State
-1.
-2.
-
-EGP
-- 
-
-
-!@EDGE
-conf t
+ ip route 10.#$34T#.0.0 255.255.0.0 10.#$34T#.#$34T#.4 254
+ !
  router ospf 1
   router-id #$34T#.0.0.1
-  network 200.0.0.0 0.0.0.255 area 0
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
   network #$34T#.0.0.1 0.0.0.0 area #$34T#
+  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
+  network 200.0.0.0 0.0.0.255 area 0
  int gi 0/0/0
   ip ospf network point-to-point
   end
+~~~
 
+<br>
+
+~~~
 !@CoreBABA
 conf t
  router ospf 1
   router-id 10.#$34T#.#$34T#.4
    network 10.#$34T#.0.0 0.0.255.255 area #$34T#
-   end
-
-
-Did EDGE & CoreBABA form a neighborship?
-Did they share routes?
-
-!@CoreBABA
-conf t
  int gi 0/1
   ip ospf network point-to-point
   end
+~~~
 
+<br>
+
+~~~
 !@CUCM
 conf t
  router ospf 1
   router-id 10.#$34T#.100.8
   network 10.#$34T#.100.0 0.0.0.255 area #$34T#
   end
+~~~
 
-
-Call Other Classmates.
-
----
-
-Interactive Voice Response System
-
-!@CUCM
-config t
-dial-peer voice 69 voip
- service rivanaa out-bound
- destination-pattern #$34T#69
- session target ipv4:10.#$34T#.100.1
- incoming called-number #$34T#69
- dtmf-relay h245-alphanumeric
- codec g711ulaw
- no vad
-!
-telephony-service
- moh "flash:/en_bacd_music_on_hold.au"
-!
-application
- service rivanaa flash:app-b-acd-aa-3.0.0.2.tcl
-  paramspace english index 1        
-  param number-of-hunt-grps 2
-  param dial-by-extension-option 8
-  param handoff-string rivanaa
-  param welcome-prompt flash:en_bacd_welcome.au
-  paramspace english language en
-  param call-retry-timer 15
-  param service-name rivanqueue
-  paramspace english location flash:
-  param second-greeting-time 60
-  param max-time-vm-retry 2
-  param voice-mail 1234
-  param max-time-call-retry 700
-  param aa-pilot #$34T#69
- service rivanqueue flash:app-b-acd-3.0.0.2.tcl
-  param queue-len 15
-  param aa-hunt1 #$34T#00
-  param aa-hunt2 #$34T#77
-  param aa-hunt3 #$34T#01
-  param aa-hunt4 #$34T#33
-  param queue-manager-debugs 1
-  param number-of-hunt-grps 4
-  end
-  
----
-
-Wireless Connectivity
-
-Configure AUT-AP using python
+<br>
+<br>
 
 ---
+&nbsp;
 
-Session Initiation Protocol
-
-!@CUCM
-conf t
- voice service voip
-  allow-connections h323 to sip
-          
-  allow-connections sip to h323
-  allow-connections sip to sip
-  supplementary-service h450.12
- sip
-   bind control source-interface fa0/0
-   bind media source-interface fa0/0
-   registrar server expires max 600 min 60
- voice register global
-  mode cme
-  source-address 10.#$34T#.100.1 port 5060
-  max-dn 12
-  max-pool 12
-  authenticate register
-  create profile sync syncinfo.xml
- voice register dn 1
-   number #$34T#23
-   allow watch
-   name #$34T#23
- voice register dn 2
-   number #$34T#24
-   allow watch
-   name #$34T#24
-  voice register pool 1
-    id mac #mym0bilemac#
-    number 1 dn 1
-    dtmf-relay sip-notify
-    username #$34T#23 password #$34T#23
-    codec g711ulaw
-  voice register pool 2
-    id mac #othm0bilemac#
-    number 1 dn 2
-    dtmf-relay sip-notify
-    username #$34T#32 password #$34T#32
-    codec g711ulaw
-	end
-
----
-
-Review
-
-Requirements for IP Phones to work
-7. App
-6. G711 G729
-5. RTP
-4. TFTP Server, SCCP: , SIP:
-3. IP
-2. MAC
-1. PoE
-
-!@cmd
-nmap -v 10.#$43T#.100.8
-
-How to monitor packets from a different network?
-SPAN
-!@CoreBABA
-conf t
- monitor session 1 source int fa0/3,fa0/5,fa0/7
- monitor session 1 destination int fa0/1,fa0/9
- end
-
-Remove SPAN
-!@CoreBABA
-conf t
- no monitor session 1 source int fa0/3,fa0/5,fa0/7
- no monitor session 1 destination int fa0/1,fa0/9
- end
-
----
-
-Internet Connectivity
-Network Address Translation
-
-1. Define INSIDE & OUTSIDE
-2. Match Traffic
-3. Define Translations
-
+### Internet Access
+~~~
 !@EDGE
 conf t
- int lo0
-  ip nat inside
-  exit
  int g0/0/0
   ip nat inside
   exit
  int g0/0/1
   ip nat outside
   end
+~~~
 
+<br>
+
+~~~
 !@EDGE
 conf t
  ip access-list extended NAT-POLICY
@@ -2479,46 +2311,36 @@ conf t
   no deny ip 10.#$34T#.0.0 0.0.255.255 10.#$34T#.0.0 0.0.255.255
   permit ip any any
   end
+~~~
 
+<br>
+
+~~~
 !@EDGE
 conf t
  ip nat inside source list NAT-POLICY int g0/0/1 overload
  end
+~~~
 
+<br>
 
-Give Internet
+~~~
 !@EDGE
 conf t
  ip route 0.0.0.0 0.0.0.0 200.0.0.1
- end
-
----
-
-OSPF vs EIGRP
-Does OSPF Routers form neighborships behind NAT devices?
-
-!@edge
-conf t
- no router ospf 1
- router ospf 1
-  router-id #$34T#.0.0.1
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
-  default-information originate always
-  end
-
-!@edge
-conf t
  ip name-server 10.#$34T#.1.10
  ip domain lookup
  end
+~~~
+
+<br>
+<br>
 
 ---
+&nbsp;
 
-Leased Line vs VPN
-Can you still call your other classmates?
-
-Configure VPN (mGRE)
-
+### Network Tunneling
+~~~
 !@EDGE
 conf t
  int tun1
@@ -2550,13 +2372,11 @@ conf t
   ip nhrp map 172.16.1.92 200.0.0.92
   no ip nhrp map 172.16.1.#$34T# 200.0.0.#$34T#
   end
+~~~
 
----
+<br>
 
-Route via Tunnel
-
-Static
-
+~~~
 !@EDGE
 conf t
  ip route 10.11.0.0 255.255.0.0 172.16.1.11 252
@@ -2580,29 +2400,44 @@ conf t
  !
  no ip route 10.#$34T#.0.0 255.255.0.0 172.16.1.#$34T# 252
  end
+~~~ 
 
+<br>
+<br>
 
-Dynamic (EIGRP)
+---
+&nbsp;
 
+### OSPF vs EIGRP
+*Does OSPF Routers form neighborships behind NAT devices?*
+
+<br>
+
+~~~
 !@EDGE
 conf t
+ int tun1
+  no ip eigrp next-hop-self
+  no ip split-horizon eigrp 100
+  bandwidth 10000
+  mtu 1400
+  ip tcp adjust-mss 1360
+ no router ospf 1
+ router ospf 1
+  router-id #$34T#.0.0.1
+  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
+  default-information originate always
  router eigrp 100
   no auto-summary
   router-id 200.0.0.#$34T#
   network 200.0.0.0 0.0.0.255
+  network 172.16.1.0 0.0.0.255
   end
+~~~
 
-!@EDGE
-conf t
- int tun1
-  bandwidth 10000
-  ip mtu 1400
-  no ip split-horizon eigrp 1
-  ip tcp adjust-mss 1360
-  end
+<br>
 
-Redistribute EIGRP & OSPF
-
+~~~
 !@EDGE
 conf t
  router ospf 1
@@ -2611,8 +2446,51 @@ conf t
  router eigrp 100
   redistribute ospf 1 metric 10000 100 255 1 1500
   end
+~~~
+
+<br>
+<br>
 
 ---
+&nbsp;
+
+## Wireless Connectivity
+
+Configure AUT-AP using python
+
+
+
+
+
+### Assurance 
+Review
+
+Requirements for IP Phones to work
+7. App
+6. G711 G729
+5. RTP
+4. TFTP Server, SCCP: , SIP:
+3. IP
+2. MAC
+1. PoE
+
+!@cmd
+nmap -v 10.#$43T#.100.8
+
+How to monitor packets from a different network?
+SPAN
+!@CoreBABA
+conf t
+ monitor session 1 source int fa0/3,fa0/5,fa0/7
+ monitor session 1 destination int fa0/1,fa0/9
+ end
+
+Remove SPAN
+!@CoreBABA
+conf t
+ no monitor session 1 source int fa0/3,fa0/5,fa0/7
+ no monitor session 1 destination int fa0/1,fa0/9
+ end
 
 
 
