@@ -1327,19 +1327,6 @@ conf t
   no shut
   end
 ~~~
-
-<br>
-
-__Assign RSTVM to VLAN the Management VLAN__
-~~~
-!@A3
-conf t
- int e3/3
-  no shut
-  switchport mode access
-  switchport access vlan 1
-  end
-~~~
   
 <br>
 <br>
@@ -1509,6 +1496,7 @@ conf t
 ### VLAN Management
 *Did devices get IP from the correct VLAN?*
 
+~~~
 !@CoreBABA
 conf t
  int range fa0/2,fa0/4
@@ -1530,11 +1518,118 @@ conf t
   mls qos trust device cisco-phone
   mls qos trust cos
   end
- 
- 
+~~~
+
+<br>
+
+__Assign RSTVM to VLAN 1__
+~~~
+!@A3
+conf t
+ int e3/3
+  no shut
+  switchport mode access
+  switchport access vlan 1
+  end
+~~~
+
+<br>
+<br>
+
+---
+&nbsp;
+
+### 🎯 Exercise 07: [3-Tier] Assign end devices to their specified VLAN
+| Device | VLAN    |
+| ---    | ---     |
+| P1     | ADMIN   |
+| P2     | HR      | 
+| P3     | FINANCE |
+| P4     | ADMIN   |
+| P5     | SALES   |
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+&nbsp;
+---
+&nbsp;
+
+### ANSWER
+<details>
+<summary>Show Answer</summary>
+
+~~~
+!@A1
+conf t
+ int e0/1
+  switchport mode access
+  switchport access vlan 10
+ int e0/0
+  switchport mode access
+  switchport access vlan 30
+  end
+~~~
+
+<br>
+
+~~~
+!@A2
+conf t
+ int e0/1
+  switchport mode access
+  switchport access vlan 20
+ int e0/0
+  switchport mode access
+  switchport access vlan 10
+  end
+~~~
+
+<br>
+
+~~~
+!@A3
+conf t
+ int e0/1
+  switchport mode access
+  switchport access vlan 50
+  end
+~~~
+
+</details>
+
+<br>
+<br>
+
+---
+&nbsp;
+
 ## MAC Learning
 ### IP Reservation
 
+~~~
 !@CoreTAAS
 conf t
  ip routing
@@ -1545,12 +1640,20 @@ conf t
   host 10.#$34T#.50.8 255.255.255.0
   client-identifier #camera8macadd#
  end
- 
+~~~
 
-### Exercise 07: [3-Tier] Reserve IP address
+<br>
+<br>
+
+---
+&nbsp;
+
+### [3-Tier] Reserve IP address for S1
 Task 1.
 - Assign S1 to the ServerFarm VLAN
 - Configure S1 with a Client-ID on its e0/0 interface as its MAC Address
+
+<br>
 
 Task 2.
 - Configure a DHCP pool on C2 to reserve IP 10.1.100.200/25 for S1
@@ -1558,6 +1661,9 @@ Task 2.
 - Set the default gateway as C2
 - Set S1 as a DHCP Client
 
+<br>
+
+~~~
 !@D2
 conf t
  int e0/0
@@ -1565,7 +1671,11 @@ conf t
   switchport access vlan 100
   no shut
   end
+~~~
 
+<br>
+
+~~~
 !@S1
 show int e0/0
 conf t
@@ -1574,7 +1684,11 @@ conf t
   ip dhcp client client-id hex #M4C4DDR3SS#
   ip add dhcp
   end
+~~~
 
+<br>
+
+~~~
 !@C2
 conf t
  int vlan 100
@@ -1582,9 +1696,9 @@ conf t
  ip dhcp pool S1Farm
   host 10.1.100.200 255.255.255.128
   default-router 10.1.100.130
-  client-identifier aabbcc00d500
+  client-identifier #M4C4DDR3SS#
   end
- 
+~~~
 
 <br>
 <br>
