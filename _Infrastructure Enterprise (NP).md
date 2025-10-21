@@ -1857,9 +1857,8 @@ conf t
 ---
 &nbsp;
 
-
-Managing Enterprise Communication
-
+## Managing Enterprise Communication
+~~~
 !@CUCM
 conf t
  hostname CUCM-#$34T#
@@ -1879,33 +1878,16 @@ conf t
   ip add 10.#$34T#.100.8 255.255.255.0
   no shut
   end
+~~~
 
-
-Remote Access - Jumpserver
-Can you reach CUCM from the PC?
-
-!@cmd
-ping 10.#$34T#.100.8
-
-Clone CoreBABA session > telnet CUCM
+<br>
+<br>
 
 ---
+&nbsp;
 
-Analog Phones vs Digital Phones vs IP Phones
-
-Layer 4 - Ports
-Requirements for IP Phones to work
-7.
-6.
-5.
-4. TFTP Server, SCCP, SIP
-3. IP
-2. MAC
-1. PoE
-
-
-Analog
-
+### Analog Phones
+~~~
 !@CUCM
 conf t
  dial-peer voice 1 pots
@@ -1921,7 +1903,11 @@ conf t
   destination-pattern #$34T#03
   port 0/0/3
  end
+~~~
 
+<br>
+
+~~~
 !@CUCM
 conf t
  voice-port 0/0/0
@@ -1932,45 +1918,26 @@ conf t
  end
 !
 csim start #$34T#00
- 
+~~~
 
+<br>
+<br>
 
+---
 
+### IP Phones
+__Requirements for IP Phones to work__
+7.
+6.
+5.
+4. 
+3. 
+2.
+1.
 
+<br>
 
-
-
-
-
-
-
-
-
-
-
-
- 
- 
- 
- 
- 
- 
- 
- 
-Quality of Service
-- Markings
-- Queue
-- Tags
-
-!@CoreBABA
-conf t
- auto qos global compact
- end
-show auto qos
-
-
-Telephony
-
+~~~
 !@CUCM
 conf t
  no telephony-service
@@ -2008,7 +1975,16 @@ conf t
   button 1:5 2:6 3:7 4:8
   restart
  end
+~~~
 
+<br>
+<br>
+
+---
+&nbsp;
+
+### IP Phone Features (Video/Conference Calls)
+~~~
 !@CUCM
 conf t
  ephone 1
@@ -2022,14 +1998,55 @@ conf t
   h323
   call start slow
 end
+~~~
 
+<br>
+<br>
+
+---
+&nbsp;
+
+### Quality of Service
+- Markings
+- Queue
+- Tags
+
+<br>
+
+~~~
+!@CoreBABA
+conf t
+ int range fa0/5,fa0/7
+  mls qos trust device cisco-phone
+  end
+~~~
+
+<br>
+<br>
+
+---
+&nbsp;
+
+### Incoming Calls
+
+~~~
 !@CUCM
 conf t
  voice service voip
  ip address trusted list
  ipv4 0.0.0.0 0.0.0.0
  end
+~~~
 
+
+<br>
+<br>
+
+---
+&nbsp;
+
+### Outgoing Calls
+~~~
 !@CUCM
 conf t
  dial-peer voice 11 Voip
@@ -2105,16 +2122,18 @@ conf t
   session target ipv4:10.92.100.8
   codec g711ULAW
  end
+~~~
+
+### Remote Access - Jumpserver
+*Can you reach CUCM from the PC?*
+
+~~~
+!@cmd
+ping 10.#$34T#.100.8
+~~~
 
 
-Default Floating Static Route
 
-!@CUCM
-conf t
- ip route 0.0.0.0 0.0.0.0 10.#$34T#.100.4 254
- end
-
----
 
 Customer Premises
  Provider EDGE
