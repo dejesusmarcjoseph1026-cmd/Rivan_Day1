@@ -1731,26 +1731,65 @@ __Make Ports Alive again__
 ~~~
 !@CoreBABA
 config t
- Int fa0/6
+ int fa0/6
   no switchport port-security
   shut
   no shut
- Int fa0/8
+ int fa0/8
   no switchport port-security
   shut
   no shut
   end
 ~~~
 
+<br>
+<br>
+
+---
+&nbsp;
+
+### 🎯 Exercise 08: [3-Tier] Set Port-Security for S1
+Task 1.
+- Configure D2 to dynamically learn only 1 MAC Address on its e0/0 interface.
+- If it learns an Invalid MAC, make sure the port go to a errdisabled state.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 &nbsp;
 ---
 &nbsp;
 
-### [3-Tier] Set Port-Security for S1
+### ANSWER
+<details>
+<summary>Show Answer</summary>
+
 ~~~
 !@D2
 conf t
- e0/0
+ int e0/0
   switchport mode access
   switchport port-security
   switchport port-security mac-address sticky
@@ -1776,6 +1815,8 @@ conf t
 show port-security address 
 show int status err-disable
 ~~~
+
+</details>
  
 <br>
 <br>
@@ -1783,8 +1824,8 @@ show int status err-disable
 ---
 &nbsp;
 
-### Dynamic ARP Inspection & DHCP Snooping
-
+## Dynamic ARP Inspection & DHCP Snooping
+~~~
 !@CoreBABA
 conf t
  ip dhcp snooping
@@ -1795,11 +1836,11 @@ conf t
   ip dhcp snooping trust
   end
 show ip dhcp snooping binding
+~~~
 
+<br>
 
-Attempt D3PENTEST to perform as a Rogue DHCP Server
-
-
+~~~
 !@CoreBABA
 conf t
  ip arp inspection vlan 100
@@ -1808,9 +1849,13 @@ conf t
   exit
  ip arp inspection validate src-mac dst-mac ip
  end
+~~~
 
+<br>
+<br>
 
-
+---
+&nbsp;
 
 
 Managing Enterprise Communication
