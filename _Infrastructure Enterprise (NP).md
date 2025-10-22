@@ -2339,6 +2339,37 @@ conf t
 ---
 &nbsp;
 
+### Network Assurance (HSRP)
+~~~
+!@D1
+conf t
+ interface Vlan 10
+  standby 1 ip 10.2.1.254
+  standby 1 priority 110
+  standby 1 preempt
+  end
+~~~
+
+<br>
+
+~~~
+@D2
+conf t
+ interface Vlan 10
+  standby 1 ip 10.2.1.254
+  end
+~~~
+
+
+
+
+
+
+
+
+
+
+
 ### Network Tunneling
 ~~~
 !@EDGE
