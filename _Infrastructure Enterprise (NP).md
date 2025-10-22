@@ -2486,7 +2486,6 @@ conf t
 &nbsp;
 
 ## Wireless Connectivity
-
 Configure AUT-AP using python
 
 
