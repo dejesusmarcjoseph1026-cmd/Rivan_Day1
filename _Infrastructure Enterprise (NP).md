@@ -2481,16 +2481,7 @@ conf t
 ---
 &nbsp;
 
-## Wireless Connectivity
-Configure AUT-AP using python
-
-
-
-
-
-### Assurance 
-Review
-
+### Review
 Requirements for IP Phones to work
 7. App
 6. G711 G729
@@ -2500,40 +2491,33 @@ Requirements for IP Phones to work
 2. MAC
 1. PoE
 
+<br>
+
+~~~
 !@cmd
 nmap -v 10.#$43T#.100.8
+~~~
+
+<br>
 
 How to monitor packets from a different network?
-SPAN
+
+~~~
 !@CoreBABA
 conf t
  monitor session 1 source int fa0/3,fa0/5,fa0/7
  monitor session 1 destination int fa0/1,fa0/9
  end
+~~~
 
-Remove SPAN
+<br>
+
+~~~
 !@CoreBABA
 conf t
  no monitor session 1 source int fa0/3,fa0/5,fa0/7
  no monitor session 1 destination int fa0/1,fa0/9
  end
-
-
-
-## IP Source Guard
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+~~~
 
 
